@@ -2,14 +2,17 @@ cmake_minimum_required(VERSION 3.13)
 
 project(uevloop)
 
-add_library(libuevloop)
+set(TEST_NAME test_${PROJECT_NAME})
 
-target_include_directories(libuevloop
+add_library(${PROJECT_NAME})
+
+target_include_directories(${PROJECT_NAME}
         PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        <$BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        <$INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}>
         )
 
-target_sources(libuevloop
+target_sources(${PROJECT_NAME}
         PUBLIC
         src/system/containers/application.c
         src/system/containers/system-pools.c
@@ -31,7 +34,7 @@ target_sources(libuevloop
         src/utils/promise.c
         )
 
-add_executable(test_libuevloop
+add_executable(${TEST_NAME}
         test/test.c
         test/system/containers/application.c
         test/system/containers/system-queues.c
@@ -53,9 +56,19 @@ add_executable(test_libuevloop
         test/utils/promise.c
         )
 
-target_include_directories(test_libuevloop
+target_include_directories(${TEST_NAME}
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
         )
 
-target_link_libraries(test_libuevloop libuevloop)
+target_link_libraries(${TEST_NAME} ${PROJECT_NAME})
+
+# Includes ---------------------------------------------------------------------
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
+
+## Target's cmake files: config and version config for find_package()
+install(FILES ${PROJECT_NAME}Config.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+        )
