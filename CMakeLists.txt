@@ -69,41 +69,55 @@ target_include_directories(${TEST_NAME}
 
 target_link_libraries(${TEST_NAME} ${PROJECT_NAME})
 
-#set(${PROJECT_NAME}_PUBLIC_HEADERS include/uevloop/config.h)
-#
-#set_target_properties(${PROJECT_NAME}
-#        PROPERTIES
-#        C_STANDARD          11
-#        C_STANDARD_REQUIRED ON
-#        C_EXTENSIONS        OFF
-#        #PUBLIC_HEADER       "${${PROJECT_NAME}_PUBLIC_HEADERS}"
-#        EXPORT_NAME         framework
-#        )
+set(${PROJECT_NAME}_PUBLIC_HEADERS
+        include/uevloop/portability/critical-section.h
+        include/uevloop/system/containers/application.h
+        include/uevloop/system/containers/system-pools.h
+        include/uevloop/system/containers/system-queues.h
+        include/uevloop/system/event.h
+        include/uevloop/system/event-loop.h
+        include/uevloop/system/scheduler.h
+        include/uevloop/system/signal.h
+        include/uevloop/utils/automatic-pool.h
+        include/uevloop/utils/circular-queue.h
+        include/uevloop/utils/closure.h
+        include/uevloop/utils/conditional.h
+        include/uevloop/utils/functional.h
+        include/uevloop/utils/iterator.h
+        include/uevloop/utils/linked-list.h
+        include/uevloop/utils/module.h
+        include/uevloop/utils/object-pool.h
+        include/uevloop/utils/pipeline.h
+        include/uevloop/utils/promise.h
+        include/uevloop/config.h
+        )
+
+set_target_properties(${PROJECT_NAME}
+        PROPERTIES
+        C_STANDARD 11
+        C_STANDARD_REQUIRED ON
+        C_EXTENSIONS OFF
+        PUBLIC_HEADER "${${PROJECT_NAME}_PUBLIC_HEADERS}"
+        )
 
 
 ## Target installation
-install(TARGETS   ${PROJECT_NAME}
-        EXPORT        ${PROJECT_NAME}Targets
-        ARCHIVE       DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY       DESTINATION ${CMAKE_INSTALL_LIBDIR}
+install(TARGETS ${PROJECT_NAME}
+        EXPORT ${PROJECT_NAME}Targets
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
-        COMPONENT     library
+        COMPONENT library
         )
 
-message("bbb" ${CMAKE_INSTALL_INCLUDEDIR})
-message("ccc ${CMAKE_INSTALL_LIBDIR}")
-get_property(out TARGET ${PROJECT_NAME} PROPERTY INTERFACE_INCLUDE_DIRECTORIES)
-message("SOURCES OUT ${out}")
-message("interface sources ${INTERFACE_SOURCES}")
-
 ## Target's cmake files: targets export
-install(EXPORT  ${PROJECT_NAME}Targets
-        NAMESPACE   ${PROJECT_NAME}::
+install(EXPORT ${PROJECT_NAME}Targets
+        NAMESPACE ${PROJECT_NAME}::
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
         )
 
 ## Target's cmake files: config and version config for find_package()
-install(FILES   ${PROJECT_NAME}Config.cmake
+install(FILES ${PROJECT_NAME}Config.cmake
         ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
         )
