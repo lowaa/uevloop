@@ -117,7 +117,9 @@ install(EXPORT ${PROJECT_NAME}Targets
         )
 
 ## Target's cmake files: config and version config for find_package()
-install(FILES ${PROJECT_NAME}Config.cmake
+install(FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
         ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+        DESTINATION
+        ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
         )
