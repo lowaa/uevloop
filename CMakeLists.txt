@@ -97,7 +97,12 @@ set_target_properties(${PROJECT_NAME}
         C_STANDARD_REQUIRED ON
         C_EXTENSIONS OFF
         PUBLIC_HEADER "${${PROJECT_NAME}_PUBLIC_HEADERS}"
-        EXPORT_NAME         framework
+        EXPORT_NAME framework
+        )
+
+write_basic_package_version_file(${PROJECT_NAME}ConfigVersion.cmake
+        VERSION 0.7.0
+        COMPATIBILITY SameMajorVersion
         )
 
 
