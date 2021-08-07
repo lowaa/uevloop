@@ -39,34 +39,39 @@ target_sources(${PROJECT_NAME}
         src/utils/promise.c
         )
 
-add_executable(${TEST_NAME}
-        test/test.c
-        test/system/containers/application.c
-        test/system/containers/system-queues.c
-        test/system/containers/system-pools.c
-        test/system/event.c
-        test/system/event-loop.c
-        test/system/scheduler.c
-        test/system/signal.c
-        test/utils/automatic-pool.c
-        test/utils/circular-queue.c
-        test/utils/closure.c
-        test/utils/conditional.c
-        test/utils/functional.c
-        test/utils/iterator.c
-        test/utils/linked-list.c
-        test/utils/module.c
-        test/utils/object-pool.c
-        test/utils/pipeline.c
-        test/utils/promise.c
-        )
+message("UEENVLOOP_TEST = $ENV{UEVLOOP_TEST}")
 
-target_include_directories(${TEST_NAME}
-        PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        )
+if(DEFINED ENV{UEVLOOP_TEST})
+    message("Building test executable: ${TEST_NAME}")
+    add_executable(${TEST_NAME}
+            test/test.c
+            test/system/containers/application.c
+            test/system/containers/system-queues.c
+            test/system/containers/system-pools.c
+            test/system/event.c
+            test/system/event-loop.c
+            test/system/scheduler.c
+            test/system/signal.c
+            test/utils/automatic-pool.c
+            test/utils/circular-queue.c
+            test/utils/closure.c
+            test/utils/conditional.c
+            test/utils/functional.c
+            test/utils/iterator.c
+            test/utils/linked-list.c
+            test/utils/module.c
+            test/utils/object-pool.c
+            test/utils/pipeline.c
+            test/utils/promise.c
+            )
 
-target_link_libraries(${TEST_NAME} ${PROJECT_NAME})
+    target_include_directories(${TEST_NAME}
+            PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            )
+
+    target_link_libraries(${TEST_NAME} ${PROJECT_NAME})
+endif()
 
 set(${PROJECT_NAME}_PUBLIC_HEADERS
         include/uevloop/portability/critical-section.h

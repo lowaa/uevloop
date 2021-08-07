@@ -1504,3 +1504,10 @@ I am also looking for a new job and needed to improve my portfolio.
 * More lifecycle hooks for modules
 * Application teardown/exit
 * Implement [application](#application) signals
+
+## Roadmap
+
+Using cmake
+
+    cmake -B build .
+	make -C build
